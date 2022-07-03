@@ -22,10 +22,10 @@ public class InboxController {
 	@GetMapping(value = "/")
 	public String homePage(@AuthenticationPrincipal OAuth2User principal, Model model) {
 		
-		String userId = principal.getAttribute("login");
-		
-		if (principal == null || !StringUtils.hasText(userId))
+		if (principal == null || !StringUtils.hasText(principal.getAttribute("login")))
 			return "index";
+		
+		String userId = principal.getAttribute("login");
 		
 		List<Folder> userFolders = folderRepository.findAllByUserId(userId);
 		model.addAttribute("userFolders", userFolders);
