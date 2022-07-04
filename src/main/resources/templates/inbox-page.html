@@ -51,22 +51,14 @@ footer {
 
 	<div class="container">
 		<header>
-			<h1>Hello, Name</h1>
+			<h1>
+				Hello, <span th:text="${userId}"></span>
+			</h1>
 		</header>
 
 		<nav>
-			<div class="card">
-				<div class="card-header">Folders</div>
-				<div class="card-body">
-					<ul class="list-group">
-						<li th:each="folder: ${userFolders}"
-							class="list-group-item d-flex justify-content-between align-items-center">
-							<span th:text="${folder.label}"></span> <span
-							class="badge bg-primary rounded-pill">14</span>
-						</li>
-					</ul>
-				</div>
-			</div>
+			<div th:insert="components/generic-folder-list :: generic-folder-list (folderListHeader = 'Default Folders', folders = ${defaultFolders})"></div>
+			<div th:insert="components/generic-folder-list :: generic-folder-list (folderListHeader = 'User Folders', folders = ${userFolders})"></div>
 		</nav>
 
 		<main>Mails list</main>
