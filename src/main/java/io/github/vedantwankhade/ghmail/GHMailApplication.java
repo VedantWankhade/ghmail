@@ -10,17 +10,16 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.cassandra.CqlSessionBuilderCustomizer;
 import org.springframework.context.annotation.Bean;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.oauth2.core.user.OAuth2User;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.datastax.oss.driver.api.core.uuid.Uuids;
 
+import io.github.vedantwankhade.ghmail.model.Email;
 import io.github.vedantwankhade.ghmail.model.EmailListItem;
 import io.github.vedantwankhade.ghmail.model.Folder;
 import io.github.vedantwankhade.ghmail.model.utilmodel.EmailListItemCompoundKey;
 import io.github.vedantwankhade.ghmail.repository.EmailListItemRepository;
+import io.github.vedantwankhade.ghmail.repository.EmailRepository;
 import io.github.vedantwankhade.ghmail.repository.FolderRepository;
 
 @SpringBootApplication
@@ -32,6 +31,9 @@ public class GHMailApplication {
 	
 	@Autowired
 	private EmailListItemRepository emailListRepository;
+	
+	@Autowired
+	private EmailRepository emailRepository;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(GHMailApplication.class, args);
@@ -55,13 +57,20 @@ public class GHMailApplication {
 			key.setLabel("Inbox");
 			key.setTimeUUID(Uuids.timeBased());
 			
-			EmailListItem email = new EmailListItem();
-			email.setKey(key);
-			email.setTo(Arrays.asList("ishan407"));
-			email.setSubject("Subject " + i);
-			email.setUnread(true);
+			EmailListItem emailItem = new EmailListItem();
+			emailItem.setKey(key);
+			emailItem.setTo(Arrays.asList("ishan407"));
+			emailItem.setSubject("Subject " + i);
+			emailItem.setUnread(true);
+			emailListRepository.save(emailItem);
 			
-			emailListRepository.save(email);
+			Email email = new Email();
+			email.setTimeUUID(key.getTimeUUID());
+			email.setFrom("ishan407");
+			email.setSubject(emailItem.getSubject());
+			email.setBody("Body " + i);
+			email.setTo(emailItem.getTo());
+			emailRepository.save(email);
 		}
 	}
 }
