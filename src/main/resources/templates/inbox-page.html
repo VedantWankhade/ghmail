@@ -57,11 +57,29 @@ footer {
 		</header>
 
 		<nav>
-			<div th:insert="components/generic-folder-list :: generic-folder-list (folderListHeader = 'Default Folders', folders = ${defaultFolders})"></div>
-			<div th:insert="components/generic-folder-list :: generic-folder-list (folderListHeader = 'User Folders', folders = ${userFolders})"></div>
+			<div
+				th:insert="components/generic-folder-list :: generic-folder-list (folderListHeader = 'Default Folders', folders = ${defaultFolders})"></div>
+			<div
+				th:insert="components/generic-folder-list :: generic-folder-list (folderListHeader = 'User Folders', folders = ${userFolders})"></div>
 		</nav>
 
-		<main>Mails list</main>
+		<main>
+			<div class="card" th:if="${emailList}">
+				<div class="card-header">Inbox</div>
+				<div class="card-body">
+					<div class="list-group">
+						<a th:each="emailListItem: ${emailList}" href="#" class="list-group-item list-group-item-action"
+							aria-current="true">
+							<div class="d-flex w-100 justify-content-between">
+								<h5 class="mb-1" th:text="${emailListItem.subject}"></h5>
+								<small th:text="${emailListItem.humanTime}">3 days ago</small>
+							</div>
+							<p class="mb-1" th:text="${emailListItem.to}">Some placeholder content in a paragraph.</p>
+						</a>
+					</div>
+				</div>
+			</div>
+		</main>
 
 		<footer> Footer </footer>
 	</div>
