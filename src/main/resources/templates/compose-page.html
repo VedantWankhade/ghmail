@@ -73,7 +73,7 @@ footer {
 					<form>
 						<div class="mb-3">
 							<label for="toIds" class="form-label">To</label> 
-							<input type="text" class="form-control"
+							<input type="text" th:value="${toIds}" class="form-control"
 								id="toIds" aria-describedby="toIdsHelp">
 							<div id="toIdsHelp" class="form-text">GitHub Ids as csv.</div>
 						</div>
