@@ -57,6 +57,9 @@ footer {
 		</header>
 
 		<nav>
+			<div class="card">
+				<a href="/compose" class="btn btn-primary">Compose Email</a>
+			</div>
 			<div
 				th:insert="components/generic-folder-list :: generic-folder-list (folderListHeader = 'Default Folders', folders = ${defaultFolders})"></div>
 			<div
@@ -68,13 +71,16 @@ footer {
 				<div class="card-header" th:text="${folderLabel}"></div>
 				<div class="card-body">
 					<div class="list-group">
-						<a th:each="emailListItem: ${emailList}" th:href="@{'/emails/' + ${emailListItem.key.timeUUID}}" class="list-group-item list-group-item-action"
+						<a th:each="emailListItem: ${emailList}"
+							th:href="@{'/emails/' + ${emailListItem.key.timeUUID}}"
+							class="list-group-item list-group-item-action"
 							aria-current="true">
 							<div class="d-flex w-100 justify-content-between">
 								<h5 class="mb-1" th:text="${emailListItem.subject}"></h5>
 								<small th:text="${emailListItem.humanTime}">3 days ago</small>
 							</div>
-							<p class="mb-1" th:text="${emailListItem.to}">Some placeholder content in a paragraph.</p>
+							<p class="mb-1" th:text="${emailListItem.to}">Some
+								placeholder content in a paragraph.</p>
 						</a>
 					</div>
 				</div>
