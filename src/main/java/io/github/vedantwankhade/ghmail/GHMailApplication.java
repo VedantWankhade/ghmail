@@ -57,5 +57,6 @@ public class GHMailApplication {
 		for (int i = 0; i < 10; i++) {
 			emailService.sendEmail("ishan407", Arrays.asList("ishan407", "abc"), "Hello " + i, "Body " + i);
 		}
+		emailService.sendEmail("me", Arrays.asList("notMe"), "Hello ", "Body ");
 	}
 }

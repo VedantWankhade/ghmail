@@ -64,6 +64,10 @@ public class EmailViewController {
 			return "inbox-page";
 		
 		Email email = optionalEmail.get();
+		
+		if (!(userId.equals(email.getFrom()) || email.getTo().contains(userId)))
+			return "redirect:/";
+		
 		model.addAttribute("email", email);
 		String toIds = String.join(", ", email.getTo());
 		
