@@ -12,6 +12,7 @@ import io.github.vedantwankhade.ghmail.model.EmailListItem;
 import io.github.vedantwankhade.ghmail.model.utilmodel.EmailListItemCompoundKey;
 import io.github.vedantwankhade.ghmail.repository.EmailListItemRepository;
 import io.github.vedantwankhade.ghmail.repository.EmailRepository;
+import io.github.vedantwankhade.ghmail.repository.UnreadEmailStatsRepository;
 
 @Service
 public class EmailService {
@@ -21,6 +22,9 @@ public class EmailService {
 	
 	@Autowired
 	private EmailListItemRepository emailListItemRepository;
+	
+	@Autowired
+	private UnreadEmailStatsRepository unreadEmailStatsRepository;
 	
 	public void sendEmail(String from, List<String> to, String subject, String body) {
 		
@@ -36,9 +40,11 @@ public class EmailService {
 		to.forEach(toId -> {
 			EmailListItem item = createEmailListItem(to, subject, email, toId, "Inbox");
 			emailListItemRepository.save(item);
+			unreadEmailStatsRepository.incrementUnreadCount(toId, "Inbox");
 		});
 		
 		EmailListItem sentItem = createEmailListItem(to, subject, email, from, "Sent Items");
+		sentItem.setUnread(false);
 		emailListItemRepository.save(sentItem);
 	}
 

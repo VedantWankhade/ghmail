@@ -2,6 +2,7 @@ package io.github.vedantwankhade.ghmail.controller;
 
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.ocpsoft.prettytime.PrettyTime;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +18,10 @@ import com.datastax.oss.driver.api.core.uuid.Uuids;
 
 import io.github.vedantwankhade.ghmail.model.EmailListItem;
 import io.github.vedantwankhade.ghmail.model.Folder;
+import io.github.vedantwankhade.ghmail.model.UnreadEmailStats;
 import io.github.vedantwankhade.ghmail.repository.EmailListItemRepository;
 import io.github.vedantwankhade.ghmail.repository.FolderRepository;
+import io.github.vedantwankhade.ghmail.repository.UnreadEmailStatsRepository;
 import io.github.vedantwankhade.ghmail.service.FolderService;
 
 @Controller
@@ -29,6 +32,9 @@ public class InboxController {
 
 	@Autowired
 	private EmailListItemRepository emailListItemRepository;
+	
+	@Autowired
+	private UnreadEmailStatsRepository unreadEmailStatsRepository;
 	
 	@Autowired
 	private FolderService folderService;
@@ -48,6 +54,8 @@ public class InboxController {
 		
 		List<Folder> defaultFolders = folderService.fetchDefaultFolders(userId);
 		model.addAttribute("defaultFolders", defaultFolders);
+		
+		model.addAttribute("unreadStats", folderService.mapCountToLabels(userId));
 		
 		String folderLabel = folder != null ? folder :"Inbox";
 		List<EmailListItem> emails = emailListItemRepository.findAllByKey_UserIdAndKey_Label(userId, folderLabel);
