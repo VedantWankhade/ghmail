@@ -5,52 +5,10 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <title>GHMail</title>
 <meta name="viewport" content="width=device-width" />
-<!-- Bootstrap CSS only -->
-<link
-	href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css"
-	rel="stylesheet"
-	integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor"
-	crossorigin="anonymous">
-
-<style type="text/css">
-.container {
-	display: grid;
-	grid-template-areas: "header header header" "nav content content"
-		"footer footer footer";
-	grid-template-columns: 200px 1fr 200px;
-	grid-template-rows: auto 1fr auto;
-	grid-gap: 10px;
-	height: 100vh;
-}
-
-header {
-	grid-area: header;
-}
-
-nav {
-	grid-area: nav;
-	margin-left: 0.5rem;
-}
-
-main {
-	grid-area: content;
-}
-
-aside {
-	grid-area: side;
-	margin-right: 0.5rem;
-}
-
-footer {
-	grid-area: footer;
-}
-
-</style>
-
 </head>
 <body>
 
-	<div class="container">
+	<div>
 		<header>
 			<h1>
 				Hello, <span th:text="${userId}"></span>
@@ -58,8 +16,8 @@ footer {
 		</header>
 
 		<nav>
-			<div class="card">
-				<a href="/compose" class="btn btn-primary">Compose Email</a>
+			<div>
+				<a href="/compose">Compose Email</a>
 			</div>
 			<div
 				th:insert="components/generic-folder-list :: generic-folder-list (folderListHeader = 'Default Folders', folders = ${defaultFolders})"></div>
@@ -68,19 +26,19 @@ footer {
 		</nav>
 
 		<main>
-			<div class="card" th:if="${emailList}">
-				<div class="card-header" th:text="${folderLabel}"></div>
-				<div class="card-body">
-					<div class="list-group">
+			<div th:if="${emailList}">
+				<div th:text="${folderLabel}"></div>
+				<div>
+					<div>
 						<a th:each="emailListItem: ${emailList}"
 							th:href="@{'/emails/' + ${emailListItem.key.timeUUID} + '?folder=' + ${folderLabel}}"
-							class="list-group-item list-group-item-action" th:classappend="${emailListItem.isUnread} ? 'list-group-item-primary': ''"
+							th:classappend="${emailListItem.isUnread} ? 'list-group-item-primary': ''"
 							aria-current="true">
-							<div class="d-flex w-100 justify-content-between">
-								<h5 class="mb-1" th:text="${emailListItem.subject}"></h5>
+							<div>
+								<h5 th:text="${emailListItem.subject}"></h5>
 								<small th:text="${emailListItem.humanTime}">3 days ago</small>
 							</div>
-							<p class="mb-1" th:text="${emailListItem.to}">Some
+							<p th:text="${emailListItem.to}">Some
 								placeholder content in a paragraph.</p>
 						</a>
 					</div>
@@ -91,10 +49,5 @@ footer {
 		<footer> Footer </footer>
 	</div>
 
-	<!-- Bootstrap JavaScript Bundle with Popper -->
-	<script
-		src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
-		integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
-		crossorigin="anonymous"></script>
 </body>
 </html>
