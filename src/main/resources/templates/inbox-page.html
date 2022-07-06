@@ -44,6 +44,7 @@ aside {
 footer {
 	grid-area: footer;
 }
+
 </style>
 
 </head>
@@ -72,8 +73,8 @@ footer {
 				<div class="card-body">
 					<div class="list-group">
 						<a th:each="emailListItem: ${emailList}"
-							th:href="@{'/emails/' + ${emailListItem.key.timeUUID}}"
-							class="list-group-item list-group-item-action"
+							th:href="@{'/emails/' + ${emailListItem.key.timeUUID} + '?folder=' + ${folderLabel}}"
+							class="list-group-item list-group-item-action" th:classappend="${emailListItem.isUnread} ? 'list-group-item-primary': ''"
 							aria-current="true">
 							<div class="d-flex w-100 justify-content-between">
 								<h5 class="mb-1" th:text="${emailListItem.subject}"></h5>
