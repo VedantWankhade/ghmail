@@ -21,6 +21,7 @@ import io.github.vedantwankhade.ghmail.model.utilmodel.EmailListItemCompoundKey;
 import io.github.vedantwankhade.ghmail.repository.EmailListItemRepository;
 import io.github.vedantwankhade.ghmail.repository.EmailRepository;
 import io.github.vedantwankhade.ghmail.repository.FolderRepository;
+import io.github.vedantwankhade.ghmail.repository.UnreadEmailStatsRepository;
 
 @SpringBootApplication
 @RestController
@@ -34,6 +35,9 @@ public class GHMailApplication {
 	
 	@Autowired
 	private EmailRepository emailRepository;
+	
+	@Autowired
+	private UnreadEmailStatsRepository unreadEmailStatsRepository;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(GHMailApplication.class, args);
@@ -50,6 +54,10 @@ public class GHMailApplication {
 		folderRepository.save(new Folder("ishan407", "Inbox", "blue"));
 		folderRepository.save(new Folder("ishan407", "Sent", "green"));
 		folderRepository.save(new Folder("ishan407", "Important", "yellow"));
+		
+		unreadEmailStatsRepository.incrementUnreadCount("ishan407", "Inbox");
+		unreadEmailStatsRepository.incrementUnreadCount("ishan407", "Inbox");
+		unreadEmailStatsRepository.incrementUnreadCount("ishan407", "Inbox");
 		
 		for (int i = 0; i < 10; i++) {
 			EmailListItemCompoundKey key = new EmailListItemCompoundKey();
